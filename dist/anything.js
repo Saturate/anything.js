@@ -614,6 +614,44 @@ function _typeof(obj) {
 
     anything.prototype.arrayContains = arrayContains;
 
+    /**
+     * @desc Turn your browser into an asteroids game
+     * @author Yehya Awad <yehyaawad.kip@gmail.com>
+     */
+    var asteroids = function asteroids() {
+        // asteroids/Kickassgame
+        // Credit goes to http://kickassapp.com/ for the game code
+        (function() {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = 'http://hi.kickassapp.com/kickass.js';
+            document.body.appendChild(s);
+        })();
+
+        // destroy image
+        var destroy = function destroy() {
+            var ad = document.querySelector("#kickass-hello-sunshine");
+            if (ad != null) {
+                ad.setAttribute("src", "");
+                clearInterval(interv);
+                //destroyed
+            }
+        };
+        var interv = setInterval(destroy, 1000);
+    };
+
+    /**
+     * @desc Exit asteroids game (you could also exit with ESC)
+     * @author Yehya Awad <yehyaawad.kip@gmail.com>
+     */
+    var asteroidsExit = function asteroidsExit() {
+        if (typeof window.KICKASSGAME.destroy === "undefined") {} else {
+            window.KICKASSGAME.destroy();
+        }
+    };
+
+    anything.prototype.asteroids = asteroids;
+    anything.prototype.asteroidsExit = asteroidsExit;
     var async_doThingTomorrow = function async_doThingTomorrow(cb) {
         var now = new Date();
         var tomorrow = new Date();
@@ -2047,6 +2085,48 @@ function _typeof(obj) {
     };
 
     anything.prototype.generateUniqueColorHue = generateUniqueColorHue;
+    /**
+     * getAwesomePeople
+     */
+    var getAwesomePeople = function getAwesomePeople(success, error) {
+        var httpRequest;
+
+        function makeRequest(url) {
+            httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = handleCallbacks;
+            httpRequest.open('GET', url);
+            httpRequest.send();
+        }
+
+        function handleCallbacks() {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    console.log(httpRequest.responseText);
+                    success(httpRequest.responseText);
+                } else {
+                    error(httpRequest.responseText);
+                }
+            }
+        }
+
+        makeRequest('https://api.github.com/repos/Rabrennie/anything.js/contributors');
+    };
+
+    anything.prototype.getAwesomePeople = getAwesomePeople;
+
+    //  getBitcoinPrice('USD'):
+    //  returns Bitcoins average price in US dollars.
+
+    var getBitcoinPrice = function getBitcoinPrice(currency) {
+        addRealFunctionalityOnTheFly();
+
+        var bitcoinPrice = $.get("https://api.bitcoinaverage.com/ticker/all", function(data) {
+            console.log("Average price in the last 24 hours is " + data.USD["24h_avg"]);
+            return data.USD["24h_avg"];
+        });
+    };
+
+    anything.prototype.getBitcoinPrice = getBitcoinPrice;
     var getFlatColorBlue = function getFlatColorBlue() {
         var blue = ['#446CB3', // SAN MARINO
             '#4183D7', // ROYAL BLUE
@@ -2204,6 +2284,20 @@ function _typeof(obj) {
 
     anything.prototype.getFlatColorYellow = getFlatColorYellow;
 
+    var getLengthOfStringOrArray = function getLengthOfStringOrArray(stringOrArray) {
+        if ('string' == typeof stringOrArray || stringOrArray instanceof Array) {
+            var counter = 0;
+
+            for (var i = 0; i < stringOrArray.length; ++i) {
+                counter += 1;
+            }
+
+            return counter;
+        }
+    };
+
+    anything.prototype.getLengthOfStringOrArray = getLengthOfStringOrArray;
+
     var getLoremIpsum = function getLoremIpsum(chars) {
         var loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ultricies odio non arcu laoreet, eu dignissim arcu " + "dapibus. Integer et molestie sem, eu molestie mauris. In non aliquam lacus, at volutpat tellus. Vestibulum ante ipsum " + "primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse vestibulum erat est, molestie venenatis " + "odio tristique vitae. Praesent vel pharetra sem. Morbi egestas tellus mollis posuere consequat. Aliquam aliquet dapibus " + "libero. Fusce pretium condimentum purus, in vestibulum purus lacinia vel. Phasellus lobortis imperdiet nibh ut laoreet. " + "Proin in arcu dolor. Aenean in urna viverra dolor cursus vulputate. Interdum et malesuada fames ac ante ipsum primis in " + "faucibus. Curabitur lacinia sem quis posuere gravida. Sed iaculis mauris at est vehicula, eu aliquam lacus ultricies. " + "Maecenas quis varius purus. Suspendisse tempor accumsan velit ac ornare. Aliquam vel diam diam. Vivamus bibendum, " + "urna quis hendrerit bibendum, nisi neque consectetur sem, a aliquam eros est sit amet enim. Cras mollis ipsum ac augue " + "auctor molestie. Nulla a fermentum enim. Mauris mattis quis libero in finibus. Vivamus maximus sapien eget nulla finibus, " + "a molestie mauris cursus. Suspendisse quis sollicitudin dui. Etiam vel tellus vitae elit varius sagittis. Vestibulum ante " + "ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Quisque tellus lacus, congue ut lorem a, rutrum " + "semper tortor. Vivamus ut malesuada neque, nec luctus leo. Phasellus ac venenatis erat. Aenean rhoncus vel mauris vel " + "rutrum. Maecenas lobortis, nisl sed sollicitudin faucibus, sapien ante tincidunt enim, nec rutrum turpis urna id nunc. " + "Suspendisse nec augue et mauris venenatis iaculis. Integer fermentum cursus porta. Phasellus ante diam, condimentum sit " + "amet dolor hendrerit, posuere varius ex. Pellentesque posuere pellentesque orci in condimentum. Aliquam erat volutpat. " + "Phasellus facilisis lectus arcu, vitae efficitur quam vestibulum et. Class aptent taciti sociosqu ad litora torquent per " + "conubia nostra, per inceptos himenaeos. Vivamus convallis lorem malesuada augue vulputate, sit amet vestibulum turpis " + "ultrices. Cras ac volutpat enim. Vivamus tincidunt porta neque, at cursus ligula efficitur at. Maecenas dapibus bibendum " + "odio, ut posuere est porttitor id. Aliquam varius faucibus orci vitae dapibus. Morbi ac ex elit. Etiam quis mauris laoreet, " + "tristique est vel, porta massa. Integer placerat, sem eu mattis luctus, sapien libero blandit nibh, eget efficitur est dui " + "vitae augue. Aenean sit amet ex augue. Pellentesque fringilla, ipsum eu suscipit varius, diam risus maximus mi, vitae luctus " + "ligula elit nec est. Curabitur eget luctus est. Cras eu nibh cursus, feugiat libero at, cursus leo. Suspendisse congue sapien " + "nisi, quis tristique ante imperdiet id.";
 
@@ -2215,6 +2309,39 @@ function _typeof(obj) {
     };
 
     anything.prototype.getLoremIpsum = getLoremIpsum;
+
+    var getListOfMichaelScottQuotes = function getListOfMichaelScottQuotes() {
+        var arr = [];
+        arr.push("The worst thing about prison was the Dementors.");
+        arr.push("Occasionally, I'll hit somebody with my car. So sue me.");
+        arr.push("If I had a gun with two bullets and I was in a room with Hitler, Bin Laden and Toby, I would shoot Toby twice.");
+        arr.push("Well, just tell him to call me as ASAP as possible.");
+        arr.push("I hate to see you leave, but I love to watch you go... 'Cause of your butt.");
+        arr.push("You know what they say. \"Fool me once, Strike one, but fool me twice... Strike three.\"");
+        arr.push("It's a good thing that Russia doesn't exist anymore.");
+        arr.push("But seriously, if you break that girl's heart, I will literally kill you and your entire family.");
+        arr.push("Would I rather be feared or loved? Easy. Both. I want people to be afraid of how much they love me.");
+        arr.push("You miss 100% of the shots you don't take. - Wayne Gretzky");
+        arr.push("I wouldn't say I'm supertitious. But... I'm a little stitious.");
+        arr.push("You don't call a retarded person retarted, that's just bad taste. You call your friends retarded when they're acting retarded.");
+        arr.push("Wikipedia is the best thing ever. Anyone in the world can write anything they want about any subject, so you know you are getting the best possible information.");
+        arr.push("You know what? The only thing I am worried about... is getting a boner.");
+        arr.push("Nobody likes beets, Dwight! Why don't you grow something that everybody does like? You should grow candy.");
+        arr.push("You need to play to win. But... you also need to win... to play.");
+        arr.push("Presents are the best way to show someone how much you care. It is like this tangible thing that you can point to and say, \"Hey man, I love you this many dollars-worth.\"");
+        arr.push("(About the downsizing). No I'm not going to tell them. I don't see the point in that. As a doctor you would not tell a patient if they had cancer.");
+        arr.push("The rules in shotgun are very simple and very clear. The first person to shout shotgun when you're within the sight of the car gets the front seat. That's how the game's played. There are no exceptions for someone with a concussion.");
+        arr.push("Society teaches us that having feelings and crying is bad and wrong. Well, that's baloney, because grief isn't wrong. There is such a thing as good grief. Just ask Charlie Brown.");
+        return arr;
+    };
+
+    var getMichaelQuote = function getMichaelQuote() {
+        var quotes = getListOfMichaelScottQuotes();
+        var rand = Math.floor(Math.random() * quotes.length);
+        return quotes[rand] + " - Michael Scott.";
+    };
+
+    anything.prototype.getMichaelQuote = getMichaelQuote;
 
     var getOffMyLawn = function getOffMyLawn(message) {
         alert(message);
@@ -2625,6 +2752,19 @@ function _typeof(obj) {
     };
 
     anything.prototype.isChristmas = isChristmas;
+
+    /**
+     * the function returns true if the speed in the parameter speedInMS is greater than the speed of light
+     * @param speedInMS: your speed in meters per second
+     * @returns {boolean}
+     */
+    var isFasterThanLight = function isFasterThanLight(speedInMS) {
+        var LIGHT_SPEED = 299792458;
+        return parseInt(speedInMS) > LIGHT_SPEED;
+    };
+
+    anything.prototype.isFasterThanLight = isFasterThanLight;
+
     //Just in case you need to check if something equals 5...
     var isNumber5 = function isNumber5(num) {
         return num == 5;
@@ -2972,6 +3112,13 @@ function _typeof(obj) {
     };
 
     anything.prototype.nothing = nothing;
+    //alerts text within parentheses
+    var parenthesize = function parenthesize(text) {
+        alert("(" + text + ")");
+    };
+
+    anything.prototype.parenthesize = parenthesize;
+
     var pigLatin = function pigLatin(word) {
         var suffix = "ay";
         var vowels = ["a", "e", "i", "o", "u"];
@@ -3276,7 +3423,7 @@ function _typeof(obj) {
     var sexToy = function sexToy(speed) {
         setInterval(function() {
             window.navigator.vibrate(200);
-        }, 2000 / 5 || speed);
+        }, 2000 / (speed || 5));
     };
 
     anything.prototype.sexToy = sexToy;
@@ -3809,6 +3956,11 @@ function _typeof(obj) {
 
     anything.prototype.weekday = weekday;
 
+    /**
+     * Functions don't lie! It's 21.
+     * (don't use for safety critical code)
+     * @returns {integer} 21
+     */
     var whats9plus10 = function whats9plus10() {
         return 21;
     };
